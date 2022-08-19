@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-// import userRoutes from '../routes/user';
+import userRoutes from '../routes/user';
 
 import { connectDB } from '../db/conn';
 
@@ -37,7 +37,7 @@ class Server {
   }
 
   routes() {
-    // this.app.use(this.apiPaths.users, userRoutes);
+    this.app.use(this.apiPaths.users, userRoutes);
   }
 
   listen() {

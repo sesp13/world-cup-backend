@@ -1,12 +1,11 @@
 import { Request, Response } from 'express';
-// import User from '../models/user';
+import { User } from '../models/user';
 
-// export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
+  const users = await User.find();
 
-//   const users = await User.findAll();
-
-//   res.json({ users });
-// }
+  res.json({ users });
+};
 
 // export const getUser = async (req: Request, res: Response) => {
 //   const { id } = req.params;
@@ -19,37 +18,33 @@ import { Request, Response } from 'express';
 //     });
 // }
 
-// export const postUser = async (req: Request, res: Response) => {
+export const createUser = async (req: Request, res: Response) => {
+  const body = req.body;
 
-//   const body = req.body;
+  try {
+    const emailExsts = await User.findOne({
+      where: {
+        email: body.email,
+      },
+    });
 
-//   try {
+    if (emailExsts)
+      return res.status(400).json({
+        msg: `The email ${body.email} has been taken`,
+      });
 
-//     const emailExsts = await User.findOne({
-//       where: {
-//         email: body.email
-//       }
-//     })
+    //Create and save new model
+    const user = await User.create(body);
 
-//     if (emailExsts)
-//       return res.status(400).json({
-//         msg: `The email ${body.email} has been taken`
-//       });
-
-//     //Create and save new model
-//     const user = await User.create(body);
-
-//     // await user.save();
-//     return res.json({ user });
-
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({
-//       msg: "Internal server error, please contact server admin"
-//     })
-//   }
-
-// }
+    // await user.save();
+    return res.json({ user });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: 'Internal server error, please contact server admin',
+    });
+  }
+};
 
 // export const putUser = async (req: Request, res: Response) => {
 //   const { id } = req.params;
@@ -62,7 +57,7 @@ import { Request, Response } from 'express';
 //         msg: `The user with id ${id} was not found`
 //       });
 
-//     //Verify non duplicate emails      
+//     //Verify non duplicate emails
 //     if (body.email) {
 //       const userFound = await User.findOne({
 //         where: {
