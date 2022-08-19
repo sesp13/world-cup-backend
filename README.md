@@ -1,3 +1,3 @@
-# Servidor rest hecho con typescript y msql
+# World cup backend server
 
-recordar reconstruir los modulos de node
+A server created to manage all world cup stickers and stuff, enjoy!
