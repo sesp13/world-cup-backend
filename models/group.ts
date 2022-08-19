@@ -2,11 +2,11 @@ import { model, Schema } from 'mongoose';
 
 interface IGroup {
   code: string;
-  name: string;
+  name?: string;
 }
 
 const groupSchema = new Schema<IGroup>({
-  code: { type: String, unique: true },
+  code: { type: String, unique: true, required: true },
   name: { type: String },
 });
 

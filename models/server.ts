@@ -1,16 +1,21 @@
 import express from 'express';
 import cors from 'cors';
+
+// Database
+import { connectDB } from '../db/conn'; 
+
+// Routes
 import userRoutes from '../routes/user';
 import groupRoutes from '../routes/group';
-
-import { connectDB } from '../db/conn';
+import metaStickerRoutes from '../routes/metaSticker';
 
 class Server {
   private app: express.Application;
   private port: String;
   private apiPaths = {
-    users: '/api/users/',
+    users: '/api/users',
     groups: '/api/groups',
+    metaStickers: '/api/meta-stickers'
   };
 
   constructor() {
@@ -41,6 +46,7 @@ class Server {
   routes() {
     this.app.use(this.apiPaths.users, userRoutes);
     this.app.use(this.apiPaths.groups, groupRoutes);
+    this.app.use(this.apiPaths.metaStickers, metaStickerRoutes);
   }
 
   listen() {

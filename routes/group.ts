@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import * as GroupController from '../controllers/groupController';
+import { getAllGroups } from '../controllers/groupController';
 
 const router = Router();
 
-router.get('/', GroupController.getAll);
+router.get('/', getAllGroups);
 
 export default router;
