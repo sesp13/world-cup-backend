@@ -5,6 +5,7 @@ import { IUser } from './user';
 type StickerStatus = 'PENDING' | 'PROVIDED' | 'REPEATED';
 
 interface ISticker {
+  _id: string,
   amount: number;
   status: StickerStatus;
   metaStickerId: Schema.Types.ObjectId;
