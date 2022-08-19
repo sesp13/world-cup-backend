@@ -2,20 +2,22 @@ import express from 'express';
 import cors from 'cors';
 
 // Database
-import { connectDB } from '../db/conn'; 
+import { connectDB } from '../db/conn';
 
 // Routes
-import userRoutes from '../routes/user';
 import groupRoutes from '../routes/group';
 import metaStickerRoutes from '../routes/metaSticker';
+import stickerRoutes from '../routes/sticker';
+import userRoutes from '../routes/user';
 
 class Server {
   private app: express.Application;
   private port: String;
   private apiPaths = {
-    users: '/api/users',
     groups: '/api/groups',
-    metaStickers: '/api/meta-stickers'
+    metaStickers: '/api/meta-stickers',
+    stickers: '/api/stickers',
+    users: '/api/users',
   };
 
   constructor() {
@@ -44,9 +46,10 @@ class Server {
   }
 
   routes() {
-    this.app.use(this.apiPaths.users, userRoutes);
     this.app.use(this.apiPaths.groups, groupRoutes);
     this.app.use(this.apiPaths.metaStickers, metaStickerRoutes);
+    this.app.use(this.apiPaths.stickers, stickerRoutes);
+    this.app.use(this.apiPaths.users, userRoutes);
   }
 
   listen() {

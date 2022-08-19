@@ -1,9 +1,11 @@
 import { model, Schema } from 'mongoose';
+import { IGroup } from './group';
 
-interface IMetaSticker {
+export interface IMetaSticker {
   code: string;
   groupId: Schema.Types.ObjectId;
   name?: string;
+  group?: IGroup;
 }
 
 const metaStickerSchema = new Schema<IMetaSticker>({

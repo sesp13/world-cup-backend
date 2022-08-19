@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 
-interface IGroup {
+export interface IGroup {
   code: string;
   name?: string;
 }
