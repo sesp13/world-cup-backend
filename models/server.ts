@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import userRoutes from '../routes/user';
+import groupRoutes from '../routes/group';
 
 import { connectDB } from '../db/conn';
 
@@ -9,6 +10,7 @@ class Server {
   private port: String;
   private apiPaths = {
     users: '/api/users/',
+    groups: '/api/groups',
   };
 
   constructor() {
@@ -38,6 +40,7 @@ class Server {
 
   routes() {
     this.app.use(this.apiPaths.users, userRoutes);
+    this.app.use(this.apiPaths.groups, groupRoutes);
   }
 
   listen() {
