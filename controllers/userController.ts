@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { genSaltSync, hashSync } from 'bcryptjs';
 import { User } from '../models/user';
 
 export const getUsers = async (req: Request, res: Response) => {
@@ -19,25 +20,28 @@ export const getUsers = async (req: Request, res: Response) => {
 // }
 
 export const createUser = async (req: Request, res: Response) => {
-  const body = req.body;
+  const { name, email, password } = req.body;
 
   try {
-    const emailExsts = await User.findOne({
+    const emailExists = await User.findOne({
       where: {
-        email: body.email,
+        email,
       },
     });
 
-    if (emailExsts)
+    if (emailExists)
       return res.status(400).json({
-        msg: `The email ${body.email} has been taken`,
+        msg: `The email ${email} has been taken`,
       });
 
-    //Create and save new model
-    const user = await User.create(body);
+    const user = new User({ name, email });
 
-    // await user.save();
-    return res.json({ user });
+    // Ecrypt password
+    const salt = genSaltSync();
+    user.password = hashSync(password, salt);
+
+    await user.save();
+    return res.json({ msg: `Success: User saved`, user });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
