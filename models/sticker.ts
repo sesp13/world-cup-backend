@@ -2,10 +2,10 @@ import { model, Schema } from 'mongoose';
 import { IMetaSticker } from './metaSticker';
 import { IUser } from './user';
 
-type StickerStatus = 'PENDING' | 'PROVIDED' | 'REPEATED';
+export type StickerStatus = 'PENDING' | 'PROVIDED' | 'REPEATED';
 
-interface ISticker {
-  _id: string,
+export interface ISticker {
+  _id: string;
   amount: number;
   status: StickerStatus;
   metaStickerId: Schema.Types.ObjectId;
@@ -27,5 +27,8 @@ const stickerSchema = new Schema<ISticker>({
     required: true,
   },
 });
+
+// Enforce unique combination of userId and metaStickerId 
+stickerSchema.index({ userId: 1, metaStickerId: 1 }, { unique: true });
 
 export const Sticker = model('Sticker', stickerSchema);
