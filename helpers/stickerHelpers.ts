@@ -1,6 +1,6 @@
 import { ISticker, Sticker } from '../models/sticker';
 
-export const getStickerByUserIdAndMetaStickerId = async (
+export const getStickerByUserAndMeta = async (
   userId: string,
   metaStickerId: string
 ): Promise<ISticker | null> =>
@@ -9,11 +9,12 @@ export const getStickerByUserIdAndMetaStickerId = async (
     metaStickerId,
   });
 
-export const isAvailableStickerForUser = async (
+
+export const stickerExistsByUserAndMeta = async (
   userId: string,
   metaStickerId: string
 ): Promise<boolean> => {
-  const sticker: ISticker | null = await getStickerByUserIdAndMetaStickerId(
+  const sticker: ISticker | null = await getStickerByUserAndMeta(
     userId,
     metaStickerId
   );
