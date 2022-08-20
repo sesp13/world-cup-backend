@@ -5,11 +5,11 @@ import cors from 'cors';
 import { connectDB } from '../db/conn';
 
 // Routes
-import authRoutes from '../routes/auth';
+import authRoutes from '../routes/authRoutes';
 import groupRoutes from '../routes/groupRoutes';
 import metaStickerRoutes from '../routes/metaStickerRoutes';
 import stickerRoutes from '../routes/stickerRoutes';
-import userRoutes from '../routes/user';
+import userRoutes from '../routes/userRoutes';
 
 class Server {
   private app: express.Application;
