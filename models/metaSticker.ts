@@ -10,7 +10,7 @@ export interface IMetaSticker {
 }
 
 const metaStickerSchema = new Schema<IMetaSticker>({
-  code: { type: String, required: true },
+  code: { type: String, required: true, unique: true },
   groupId: { type: Schema.Types.ObjectId, ref: 'Group', required: true },
   name: { type: String },
 });

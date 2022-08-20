@@ -6,8 +6,8 @@ import { connectDB } from '../db/conn';
 
 // Routes
 import authRoutes from '../routes/auth';
-import groupRoutes from '../routes/group';
-import metaStickerRoutes from '../routes/metaSticker';
+import groupRoutes from '../routes/groupRoutes';
+import metaStickerRoutes from '../routes/metaStickerRoutes';
 import stickerRoutes from '../routes/sticker';
 import userRoutes from '../routes/user';
 

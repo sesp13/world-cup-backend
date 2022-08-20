@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { CustomRequest } from '../interfaces/customRequest';
-import { Group, IGroup } from '../models/group';
+import { Group } from '../models/group';
 
 export const getAllGroups = async (req: Request, res: Response) => {
   const groups = await Group.find();
@@ -9,21 +9,10 @@ export const getAllGroups = async (req: Request, res: Response) => {
 
 export const createGroup = async (req: CustomRequest, res: Response) => {
   try {
-    const body: any = req.body;
-    const groupExists: IGroup | null = await Group.findOne({
-      where: { code: body.code },
-    });
-
-    if (groupExists)
-      return res.status(400).json({
-        msg: `Error a group with the same code already exists`,
-      });
-
-    const newGroup = await Group.create(body);
-
+    const group = await Group.create(req.body);
     return res.status(201).json({
       msg: `Success: Group created`,
-      group: newGroup,
+      group,
     });
   } catch (error) {
     console.log(error);
