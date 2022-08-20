@@ -1,6 +1,9 @@
 import { ISticker, Sticker } from '../models/sticker';
 
-export const getStickerByUserAndMeta = async (
+export const findStickerById = async (id: string): Promise<ISticker | null> =>
+  await Sticker.findById(id);
+
+export const findStickerByUserAndMeta = async (
   userId: string,
   metaStickerId: string
 ): Promise<ISticker | null> =>
@@ -9,14 +12,25 @@ export const getStickerByUserAndMeta = async (
     metaStickerId,
   });
 
+export const stickerExists = async (id: string): Promise<boolean> => {
+  const sticker: ISticker | null = await findStickerById(id);
+  return sticker !== null ? true : false;
+};
 
 export const stickerExistsByUserAndMeta = async (
   userId: string,
   metaStickerId: string
 ): Promise<boolean> => {
-  const sticker: ISticker | null = await getStickerByUserAndMeta(
+  const sticker: ISticker | null = await findStickerByUserAndMeta(
     userId,
     metaStickerId
   );
   return sticker !== null ? true : false;
+};
+
+// Check validators for routes
+
+export const checkStickerExists = async (id: string) => {
+  const exists = await stickerExists(id);
+  if (!exists) throw new Error(`The sticker with _id ${id} doesn't exists`);
 };
