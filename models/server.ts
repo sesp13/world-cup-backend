@@ -8,7 +8,7 @@ import { connectDB } from '../db/conn';
 import authRoutes from '../routes/auth';
 import groupRoutes from '../routes/groupRoutes';
 import metaStickerRoutes from '../routes/metaStickerRoutes';
-import stickerRoutes from '../routes/sticker';
+import stickerRoutes from '../routes/stickerRoutes';
 import userRoutes from '../routes/user';
 
 class Server {
