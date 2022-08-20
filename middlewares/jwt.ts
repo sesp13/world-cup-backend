@@ -1,9 +1,11 @@
 import { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
+import { CustomRequest } from '../interfaces/customRequest';
+
 import { IUser, User } from '../models/user';
 
 export const validateJWT = async (
-  req: Request,
+  req: CustomRequest,
   response: Response,
   next: any
 ) => {
@@ -20,6 +22,9 @@ export const validateJWT = async (
 
     const user: IUser | null = await User.findById(id);
     if (!user) return response.status(400).json({ msg: invalidMessage });
+
+    // Use extended request property
+    req.userId = id;
 
     next();
   } catch (error) {
