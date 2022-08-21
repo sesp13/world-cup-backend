@@ -5,6 +5,7 @@ import cors from 'cors';
 import { connectDB } from '../db/conn';
 
 // Routes
+import adminRoutes from '../routes/adminRoutes';
 import authRoutes from '../routes/authRoutes';
 import groupRoutes from '../routes/groupRoutes';
 import metaStickerRoutes from '../routes/metaStickerRoutes';
@@ -15,6 +16,7 @@ class Server {
   private app: express.Application;
   private port: String;
   private apiPaths = {
+    admin: '/api/admin',
     auth: '/api/auth',
     groups: '/api/groups',
     metaStickers: '/api/meta-stickers',
@@ -48,6 +50,7 @@ class Server {
   }
 
   routes() {
+    this.app.use(this.apiPaths.admin, adminRoutes);
     this.app.use(this.apiPaths.auth, authRoutes);
     this.app.use(this.apiPaths.groups, groupRoutes);
     this.app.use(this.apiPaths.metaStickers, metaStickerRoutes);

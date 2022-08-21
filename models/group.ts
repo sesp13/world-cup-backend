@@ -1,7 +1,7 @@
 import { model, Schema } from 'mongoose';
 
 export interface IGroup {
-  _id: string,
+  _id?: Schema.Types.ObjectId;
   code: string;
   name?: string;
 }

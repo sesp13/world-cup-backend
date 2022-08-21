@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose';
 import { IGroup } from './group';
 
 export interface IMetaSticker {
-  _id: string;
+  _id?: string;
   code: string;
   groupId: Schema.Types.ObjectId;
   name?: string;

@@ -6,7 +6,7 @@ export const generateJWT = (id = ''): Promise<string> => {
     sign(
       payload,
       process.env.PRIVATEKEY!,
-      { expiresIn: '4h' },
+      { expiresIn: '1d' },
       (error, token) => {
         if (error) {
           console.log(error);

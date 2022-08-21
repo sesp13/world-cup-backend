@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { CustomRequest } from '../interfaces/customRequest';
-import { MetaSticker } from '../models/metaSticker';
 import { Sticker } from '../models/sticker';
 
 export const getStickers = async (req: Request, res: Response) => {
@@ -10,7 +9,7 @@ export const getStickers = async (req: Request, res: Response) => {
 
 export const createSticker = async (req: CustomRequest, res: Response) => {
   try {
-    const userId: string = req.userId!;
+    const userId: string = req.user?._id!;
     const { metaStickerId } = req.body;
 
     const sticker = await Sticker.create({
@@ -35,7 +34,7 @@ export const updateSticker = async (req: CustomRequest, res: Response) => {
     const { _id } = req.body;
     const sticker = await Sticker.findByIdAndUpdate(_id, req.body, {
       new: true,
-    })
+    });
     return res.status(200).json({
       msg: 'Success: Update sticker',
       sticker,

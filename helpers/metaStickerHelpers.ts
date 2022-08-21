@@ -20,6 +20,14 @@ export const metaStickerExists = async (id: string): Promise<boolean> => {
   return metaSticker !== null ? true : false;
 };
 
+export const findOrCreateMetaSticker = async (model: IMetaSticker): Promise<IMetaSticker> => {
+  let metaSticker: IMetaSticker | null = await MetaSticker.findOne({ code: model.code });
+  if (metaSticker == null) {
+    metaSticker = await MetaSticker.create(model);
+  }
+  return metaSticker;
+};
+
 // Check validators for routes
 
 export const checkAvailableMetaStickerCode = async (code: string) => {

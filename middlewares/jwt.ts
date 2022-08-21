@@ -24,7 +24,7 @@ export const validateJWT = async (
     if (!user) return response.status(400).json({ msg: invalidMessage });
 
     // Use extended request property
-    req.userId = id;
+    req.user = user;
 
     next();
   } catch (error) {

@@ -6,7 +6,7 @@ export const allowedStickerStatus: string[] = [
   'PENDING',
   'PROVIDED',
   'REPEATED',
-]
+];
 
 export interface ISticker {
   _id: string;
@@ -34,7 +34,7 @@ const stickerSchema = new Schema<ISticker>({
   status: {
     type: String,
     enum: allowedStickerStatus,
-    required: true
+    required: true,
   },
 });
 

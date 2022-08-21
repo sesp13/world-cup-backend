@@ -7,7 +7,7 @@ export const isAvailableStickerForUserMiddleware = async (
   res: Response,
   next: any
 ) => {
-  const userId: string = req.userId!;
+  const userId: string = req.user?._id!;
   const { metaStickerId } = req.body;
   const exists = await stickerExistsByUserAndMeta(userId, metaStickerId);
   if (exists)

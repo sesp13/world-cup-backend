@@ -6,6 +6,14 @@ const getGroupById = async (id: string): Promise<IGroup | null> =>
 const getGroupByCode = async (code: string): Promise<IGroup | null> =>
   await Group.findOne({ code });
 
+export const findOrCreateGroup = async (model: IGroup): Promise<IGroup> => {
+  let group: IGroup | null = await Group.findOne({ code: model.code });
+  if (group == null) {
+    group = await Group.create(model);
+  }
+  return group;
+};
+
 export const groupExists = async (id: string): Promise<boolean> => {
   const group = await getGroupById(id);
   return group !== null ? true : false;
