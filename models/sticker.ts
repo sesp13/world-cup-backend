@@ -9,7 +9,7 @@ export const allowedStickerStatus: string[] = [
 ];
 
 export interface ISticker {
-  _id: string;
+  _id?: Schema.Types.ObjectId;
   amount: number;
   // must be one of allowedStickerStatus
   status: string;

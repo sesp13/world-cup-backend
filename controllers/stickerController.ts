@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { Schema } from 'mongoose';
 import { CustomRequest } from '../interfaces/customRequest';
 import { Sticker } from '../models/sticker';
 
@@ -9,7 +10,7 @@ export const getStickers = async (req: Request, res: Response) => {
 
 export const createSticker = async (req: CustomRequest, res: Response) => {
   try {
-    const userId: string = req.user?._id!;
+    const userId: Schema.Types.ObjectId = req.user?._id!;
     const { metaStickerId } = req.body;
 
     const sticker = await Sticker.create({

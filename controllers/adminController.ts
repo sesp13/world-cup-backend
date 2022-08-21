@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
 import { findOrCreateTeam } from '../helpers/adminHelpers';
-import { Group } from '../models/group';
-import { IMetaSticker, MetaSticker } from '../models/metaSticker';
 
 /*
   Create a new tea

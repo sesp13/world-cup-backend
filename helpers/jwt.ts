@@ -1,6 +1,6 @@
 import { sign } from 'jsonwebtoken';
 
-export const generateJWT = (id = ''): Promise<string> => {
+export const generateJWT = (id: string): Promise<string> => {
   return new Promise((resolve, reject) => {
     const payload = { id };
     sign(
