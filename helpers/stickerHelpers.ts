@@ -3,6 +3,10 @@ import { ISticker, Sticker } from '../models/sticker';
 export const findStickerById = async (id: string): Promise<ISticker | null> =>
   await Sticker.findById(id);
 
+export const findStickersByUser = async (
+  userId: string
+): Promise<ISticker[] | null> => await Sticker.find({ userId });
+
 export const findStickerByUserAndMeta = async (
   userId: string,
   metaStickerId: string

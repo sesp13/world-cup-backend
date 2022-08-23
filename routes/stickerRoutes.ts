@@ -3,10 +3,12 @@ import { check } from 'express-validator';
 import {
   createSticker,
   getStickers,
+  getStickersByUser,
   updateSticker,
 } from '../controllers/stickerController';
 import { checkMetaStickerExists } from '../helpers/metaStickerHelpers';
 import { checkStickerExists } from '../helpers/stickerHelpers';
+import { checkAdminRoleMiddleware } from '../middlewares/adminMiddlewares';
 import { fieldValidator } from '../middlewares/fieldValidator';
 import { validateJWT } from '../middlewares/jwt';
 import { isAvailableStickerForUserMiddleware } from '../middlewares/stickerMiddlewares';
@@ -14,7 +16,9 @@ import { allowedStickerStatus } from '../models/sticker';
 
 const router = Router();
 
-router.get('/', [validateJWT], getStickers);
+router.get('/', [validateJWT, checkAdminRoleMiddleware], getStickers);
+
+router.get('/by-user', [validateJWT], getStickersByUser);
 
 router.post(
   '/',
