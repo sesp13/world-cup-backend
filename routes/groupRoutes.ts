@@ -5,10 +5,7 @@ import {
   getAllGroups,
   updateGroup,
 } from '../controllers/groupController';
-import {
-  checkAvailableGroupCode,
-  checkGroupExists,
-} from '../helpers/groupHelpers';
+import { checkAvailableGroupCode } from '../helpers/groupHelpers';
 import { fieldValidator } from '../middlewares/fieldValidator';
 import { updateGroupMiddleware } from '../middlewares/groupMiddlewares';
 import { validateJWT } from '../middlewares/jwt';
@@ -27,13 +24,6 @@ router.post(
   createGroup
 );
 
-router.put(
-  '/',
-  [
-    validateJWT,
-    updateGroupMiddleware
-  ],
-  updateGroup
-);
+router.put('/', [validateJWT, updateGroupMiddleware], updateGroup);
 
 export default router;

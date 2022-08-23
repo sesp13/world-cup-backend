@@ -3,15 +3,18 @@ import { check } from 'express-validator';
 import {
   createMetaSticker,
   getMetaStickers,
+  updateMetaSticker,
 } from '../controllers/metaStickerController';
 import { checkGroupExists } from '../helpers/groupHelpers';
 import { checkAvailableMetaStickerCode } from '../helpers/metaStickerHelpers';
 import { fieldValidator } from '../middlewares/fieldValidator';
 import { validateJWT } from '../middlewares/jwt';
+import { updateMetaStickerMiddleware } from '../middlewares/metaStickerMiddlewares';
 
 const router = Router();
 
 router.get('/', getMetaStickers);
+
 router.post(
   '/',
   [
@@ -25,6 +28,18 @@ router.post(
     fieldValidator,
   ],
   createMetaSticker
+);
+
+router.put(
+  '/',
+  [
+    validateJWT,
+    updateMetaStickerMiddleware,
+    check('groupId', 'Invalid groupId').optional().isMongoId(),
+    check('groupId').optional().custom(checkGroupExists),
+    fieldValidator,
+  ],
+  updateMetaSticker
 );
 
 export default router;

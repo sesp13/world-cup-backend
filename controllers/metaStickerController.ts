@@ -20,3 +20,22 @@ export const createMetaSticker = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const updateMetaSticker = async (req: Request, res: Response) => {
+  try {
+    const { _id } = req.body;
+    const metaSticker = await MetaSticker.findOneAndUpdate(_id, req.body, {
+      new: true,
+    });
+    return res.status(200).json({
+      msg: 'Success: Update Meta Sticker',
+      metaSticker,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error: Update Metasticker ${error}`,
+      error,
+    });
+  }
+};
