@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { Schema } from 'mongoose';
-import { findStickersByUser } from '../helpers/stickerHelpers';
 import { CustomRequest } from '../interfaces/customRequest';
-import { Sticker } from '../models/sticker';
+import { IMetaSticker } from '../models/metaSticker';
+import { ISticker, Sticker } from '../models/sticker';
 
 export const getStickers = async (req: Request, res: Response) => {
   const stickers = await Sticker.find();
@@ -12,10 +12,22 @@ export const getStickers = async (req: Request, res: Response) => {
 export const getStickersByUser = async (req: CustomRequest, res: Response) => {
   try {
     const userId: string = req.user?._id!.valueOf() as string;
-    const stickers = await findStickersByUser(userId);
+    const populatedStickers = await Sticker.find({ userId }).populate<{
+      // metaStickerId will have the mapped user
+      metaStickerId: IMetaSticker;
+    }>('metaStickerId');
+
+    const stickers: ISticker[] = populatedStickers.map((populatedSticker) => {
+      return {
+        ...populatedSticker.toObject(),
+        metaStickerId: populatedSticker.metaStickerId._id!,
+        metaSticker: populatedSticker.metaStickerId,
+      };
+    });
+
     return res.status(200).json({
       msg: `Success: Find stickers by user`,
-      stickers,
+      stickers: stickers,
     });
   } catch (error) {
     console.log(error);
