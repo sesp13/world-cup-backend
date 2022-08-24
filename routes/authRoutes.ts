@@ -1,8 +1,21 @@
 import { Router } from 'express';
-import { login } from '../controllers/authController';
+import { check } from 'express-validator';
+import { login, renewSession } from '../controllers/authController';
+import { fieldValidator } from '../middlewares/fieldValidator';
+import { validateJWT } from '../middlewares/jwt';
 
 const router = Router();
 
-router.post('/login', login);
+router.get('/renew', [validateJWT], renewSession);
+
+router.post(
+  '/login',
+  [
+    check('email', 'email field is required').notEmpty(),
+    check('password', 'password field is required').notEmpty(),
+    fieldValidator,
+  ],
+  login
+);
 
 export default router;
