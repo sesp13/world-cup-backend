@@ -24,9 +24,7 @@ export const createUser = async (req: Request, res: Response) => {
 
   try {
     const emailExists = await User.findOne({
-      where: {
-        email,
-      },
+      email,
     });
 
     if (emailExists)
