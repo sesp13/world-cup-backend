@@ -4,7 +4,7 @@ import { Group } from '../models/group';
 
 export const getAllGroups = async (req: Request, res: Response) => {
   const groups = await Group.find();
-  return res.json({ groups });
+  return res.json({ msg: 'Success get all groups', groups });
 };
 
 export const createGroup = async (req: CustomRequest, res: Response) => {

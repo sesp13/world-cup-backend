@@ -1,8 +1,10 @@
 import { Schema, Types } from 'mongoose';
+import { FullTeam } from '../interfaces/fullTeam';
 import { IGroup } from '../models/group';
 import { IMetaSticker } from '../models/metaSticker';
 import { findOrCreateGroup } from './groupHelpers';
 import { findOrCreateMetaSticker } from './metaStickerHelpers';
+import { setUpQatar } from './teams-setup';
 
 export const findOrCreateTeam = async (
   model: IGroup
@@ -19,4 +21,44 @@ export const findOrCreateTeam = async (
     players.push(player);
   }
   return { group, players };
+};
+
+export const setUpTeamHelper = async (
+  code: string
+): Promise<{ team?: FullTeam; error?: string }> => {
+  let country: IGroup;
+  let members: IMetaSticker[];
+
+  switch (code) {
+    case 'QAT':
+      let { country: resultCountry, members: resultMembers } =
+        await setUpQatar();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    default:
+      return { error: 'Unexpected Code' };
+  }
+  return { team: { country, members } };
+};
+
+export const setUp2022Teams = async () => {
+  // Group A
+  await setUpQatar();
+  // await findOrCreateTeam({ code: 'QAT', name: 'Qatar' });
+  // await findOrCreateTeam({ code: 'ECU', name: 'Ecuador' });
+  // await findOrCreateTeam({ code: 'SEN', name: 'Senegal' });
+  // await findOrCreateTeam({ code: 'NED', name: 'Netherlands' });
+
+  // Group B
+  // await findOrCreateTeam({ code: 'ENG', name: 'England' });
+  // await findOrCreateTeam({ code: 'IRN', name: 'Iran' });
+
+  // Group C
+
+  // Group D
+
+  // Group E
+
+  // Group F
 };

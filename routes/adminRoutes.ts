@@ -1,11 +1,17 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { createSoccerTeam } from '../controllers/adminController';
+import { createSoccerTeam, setUpTeam } from '../controllers/adminController';
 import { checkAdminRoleMiddleware } from '../middlewares/adminMiddlewares';
 import { fieldValidator } from '../middlewares/fieldValidator';
 import { validateJWT } from '../middlewares/jwt';
 
 const router = Router();
+
+router.get(
+  '/set-up-team/:code',
+  [validateJWT, checkAdminRoleMiddleware],
+  setUpTeam
+);
 
 router.post(
   '/create-team',
