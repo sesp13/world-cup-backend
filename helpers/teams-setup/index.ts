@@ -27,3 +27,8 @@ export * from './group-f/belgium';
 export * from './group-f/canada';
 export * from './group-f/morroco';
 export * from './group-f/croatia';
+
+export * from './group-g/brazil';
+export * from './group-g/serbia';
+export * from './group-g/switzerland';
+export * from './group-g/cameroon';
