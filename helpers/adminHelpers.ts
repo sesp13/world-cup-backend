@@ -4,10 +4,10 @@ import { IMetaSticker } from '../models/metaSticker';
 import { findOrCreateGroup } from './groupHelpers';
 import { findOrCreateMetaSticker } from './metaStickerHelpers';
 import {
-  setUpEcuador,
-  setUpNetherlands,
-  setUpSenegal,
   setUpQatar,
+  setUpEcuador,
+  setUpSenegal,
+  setUpNetherlands,
   setUpEngland,
   setUpIran,
   setUpUnitedStates,
@@ -32,6 +32,10 @@ import {
   setUpSerbia,
   setUpSwitzerland,
   setUpCameroon,
+  setUpPortugal,
+  setUpGhana,
+  setUpUruguay,
+  setUpSouthKorea,
 } from './teams-setup';
 
 export const findOrCreateTeam = async (
@@ -247,6 +251,34 @@ export const setUpTeamHelper = async (
       members = resultMembers;
       break;
     }
+    case 'POR': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpPortugal();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'GHA': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpGhana();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'URU': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpUruguay();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'KOR': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpSouthKorea();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
     default:
       return { error: 'Unexpected Code' };
   }
@@ -295,4 +327,10 @@ export const setUp2022Teams = async () => {
   await setUpSerbia();
   await setUpSwitzerland();
   await setUpCameroon();
+
+  // Group H
+  await setUpPortugal();
+  await setUpGhana();
+  await setUpUruguay();
+  await setUpSouthKorea();
 };

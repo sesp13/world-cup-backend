@@ -32,3 +32,8 @@ export * from './group-g/brazil';
 export * from './group-g/serbia';
 export * from './group-g/switzerland';
 export * from './group-g/cameroon';
+
+export * from './group-h/portugal';
+export * from './group-h/ghana';
+export * from './group-h/uruguay';
+export * from './group-h/southKorea';
