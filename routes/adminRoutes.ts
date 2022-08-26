@@ -1,17 +1,17 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
-import { createSoccerTeam, setUpTeam } from '../controllers/adminController';
+import {
+  createSoccerTeam,
+  setUp2022Album,
+  setUpTeam,
+} from '../controllers/adminController';
 import { checkAdminRoleMiddleware } from '../middlewares/adminMiddlewares';
 import { fieldValidator } from '../middlewares/fieldValidator';
 import { validateJWT } from '../middlewares/jwt';
 
-const router = Router();
+const basicAdminMiddlewares = [validateJWT, checkAdminRoleMiddleware];
 
-router.get(
-  '/set-up-team/:code',
-  [validateJWT, checkAdminRoleMiddleware],
-  setUpTeam
-);
+const router = Router();
 
 router.post(
   '/create-team',
@@ -24,5 +24,9 @@ router.post(
   ],
   createSoccerTeam
 );
+
+router.post('/set-up-team/:code', basicAdminMiddlewares, setUpTeam);
+
+router.post('/set-up-2022-album', basicAdminMiddlewares, setUp2022Album);
 
 export default router;
