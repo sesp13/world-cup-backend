@@ -16,6 +16,10 @@ import {
   setUpSaudiArabia,
   setUpMexico,
   setUpPoland,
+  setUpFrance,
+  setUpAustralia,
+  setUpDenmark,
+  setUpTunisia,
 } from './teams-setup';
 
 export const findOrCreateTeam = async (
@@ -126,6 +130,34 @@ export const setUpTeamHelper = async (
       members = resultMembers;
       break;
     }
+    case 'FRA': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpFrance();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'AUS': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpAustralia();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'DEN': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpDenmark();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'TUN': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpTunisia();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
     default:
       return { error: 'Unexpected Code' };
   }
@@ -150,9 +182,13 @@ export const setUp2022Teams = async () => {
   await setUpSaudiArabia();
   await setUpMexico();
   await setUpPoland();
-
+  
   // Group D
-
+  await setUpFrance();
+  await setUpAustralia();
+  await setUpDenmark();
+  await setUpTunisia();
+  
   // Group E
 
   // Group F

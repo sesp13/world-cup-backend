@@ -12,3 +12,8 @@ export * from "./group-c/argentina";
 export * from "./group-c/saudiArabia";
 export * from "./group-c/mexico";
 export * from "./group-c/poland";
+
+export * from "./group-d/france";
+export * from "./group-d/australia";
+export * from "./group-d/denmark";
+export * from "./group-d/tunisia";
