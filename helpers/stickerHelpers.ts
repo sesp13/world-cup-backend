@@ -1,3 +1,5 @@
+import { Schema } from 'mongoose';
+import { IMetaSticker } from '../models/metaSticker';
 import { ISticker, Sticker } from '../models/sticker';
 
 export const findStickerById = async (id: string): Promise<ISticker | null> =>
@@ -28,6 +30,23 @@ export const findOrCreateSticker = async (
   }
   return sticker;
 };
+
+export const findStickersByStatus = (
+  status: string,
+  userId: Schema.Types.ObjectId
+) =>
+  Sticker.find({ status, userId }).populate<{
+    metaStickerId: IMetaSticker;
+  }>('metaStickerId');
+
+export const populateStickerModel = (model: any): ISticker => ({
+  ...model.toObject(),
+  metaStickerId: model.metaStickerId._id!,
+  metaSticker: model.metaStickerId,
+});
+
+export const populateStickerArrayModel = (arr: any[]): ISticker[] =>
+  arr.map((model: any) => populateStickerModel(model));
 
 export const stickerExists = async (id: string): Promise<boolean> => {
   const sticker: ISticker | null = await findStickerById(id);

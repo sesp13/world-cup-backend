@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { Schema } from 'mongoose';
 import { findAllMetaStickers } from '../helpers/metaStickerHelpers';
-import { findOrCreateSticker } from '../helpers/stickerHelpers';
+import {
+  findOrCreateSticker,
+  findStickersByStatus,
+  populateStickerArrayModel,
+} from '../helpers/stickerHelpers';
 import { CustomRequest } from '../interfaces/customRequest';
 import { IMetaSticker } from '../models/metaSticker';
 import { ISticker, Sticker } from '../models/sticker';
@@ -20,13 +24,7 @@ export const getStickersByUser = async (req: CustomRequest, res: Response) => {
       metaStickerId: IMetaSticker;
     }>('metaStickerId');
 
-    const stickers: ISticker[] = populatedStickers.map((populatedSticker) => {
-      return {
-        ...populatedSticker.toObject(),
-        metaStickerId: populatedSticker.metaStickerId._id!,
-        metaSticker: populatedSticker.metaStickerId,
-      };
-    });
+    const stickers: ISticker[] = populateStickerArrayModel(populatedStickers);
 
     return res.status(200).json({
       msg: `Success: Find stickers by user`,
@@ -36,6 +34,29 @@ export const getStickersByUser = async (req: CustomRequest, res: Response) => {
     console.log(error);
     return res.status(500).json({
       msg: `Error: Find stickers by user ${error}`,
+      error,
+    });
+  }
+};
+
+export const getStickersByUserAndStatus = async (
+  req: CustomRequest,
+  res: Response
+) => {
+  try {
+    const userId = req.user?._id!;
+    const status = req.params.status;
+    const populatedStickers = await findStickersByStatus(status, userId);
+    const stickers = populateStickerArrayModel(populatedStickers);
+
+    return res.status(200).json({
+      msg: `Success: Find pending stickers by user and status`,
+      stickers: stickers,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error: Get pending stickers by user and status ${error}`,
       error,
     });
   }

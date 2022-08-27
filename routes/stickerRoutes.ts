@@ -5,6 +5,7 @@ import {
   createStickerCollection,
   getStickers,
   getStickersByUser,
+  getStickersByUserAndStatus,
   updateSticker,
 } from '../controllers/stickerController';
 import { checkMetaStickerExists } from '../helpers/metaStickerHelpers';
@@ -20,6 +21,19 @@ const router = Router();
 router.get('/', [validateJWT, checkAdminRoleMiddleware], getStickers);
 
 router.get('/by-user', [validateJWT], getStickersByUser);
+
+router.get(
+  '/by-user-status/:status',
+  [
+    validateJWT,
+    check(
+      'status',
+      `Invalid status param, allowed status are ${allowedStickerStatus}`
+    ).isIn(allowedStickerStatus),
+    fieldValidator,
+  ],
+  getStickersByUserAndStatus
+);
 
 router.post(
   '/',
