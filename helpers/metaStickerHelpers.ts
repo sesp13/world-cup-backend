@@ -1,5 +1,8 @@
 import { IMetaSticker, MetaSticker } from '../models/metaSticker';
 
+export const findAllMetaStickers = async (): Promise<IMetaSticker[]> =>
+  await MetaSticker.find();
+
 export const getMetaStickerById = async (
   id: string
 ): Promise<IMetaSticker | null> => await MetaSticker.findById(id);
@@ -20,8 +23,12 @@ export const metaStickerExists = async (id: string): Promise<boolean> => {
   return metaSticker !== null ? true : false;
 };
 
-export const findOrCreateMetaSticker = async (model: IMetaSticker): Promise<IMetaSticker> => {
-  let metaSticker: IMetaSticker | null = await MetaSticker.findOne({ code: model.code });
+export const findOrCreateMetaSticker = async (
+  model: IMetaSticker
+): Promise<IMetaSticker> => {
+  let metaSticker: IMetaSticker | null = await MetaSticker.findOne({
+    code: model.code,
+  });
   if (metaSticker == null) {
     metaSticker = await MetaSticker.create(model);
   }

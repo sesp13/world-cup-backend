@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { check } from 'express-validator';
 import {
   createSticker,
+  createStickerCollection,
   getStickers,
   getStickersByUser,
   updateSticker,
@@ -39,6 +40,8 @@ router.post(
   ],
   createSticker
 );
+
+router.post('/create-collection', [validateJWT], createStickerCollection);
 
 router.put(
   '/',

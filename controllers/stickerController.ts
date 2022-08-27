@@ -1,8 +1,11 @@
 import { Request, Response } from 'express';
 import { Schema } from 'mongoose';
+import { findAllMetaStickers } from '../helpers/metaStickerHelpers';
+import { findOrCreateSticker } from '../helpers/stickerHelpers';
 import { CustomRequest } from '../interfaces/customRequest';
 import { IMetaSticker } from '../models/metaSticker';
 import { ISticker, Sticker } from '../models/sticker';
+import { IUser } from '../models/user';
 
 export const getStickers = async (req: Request, res: Response) => {
   const stickers = await Sticker.find();
@@ -71,8 +74,38 @@ export const updateSticker = async (req: CustomRequest, res: Response) => {
       sticker,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       msg: `Error: Update Sticker ${error}`,
+      error,
+    });
+  }
+};
+
+export const createStickerCollection = async (
+  req: CustomRequest,
+  res: Response
+) => {
+  try {
+    const user: IUser = req.user!;
+    const metaStickers: IMetaSticker[] = await findAllMetaStickers();
+
+    for (const meta of metaStickers) {
+      await findOrCreateSticker({
+        userId: user._id!,
+        metaStickerId: meta._id!,
+        amount: 0,
+        status: 'PENDING',
+      });
+    }
+
+    return res.status(201).json({
+      msg: 'Success! Create Sticker collection',
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error: Create Sticker collection ${error}`,
       error,
     });
   }

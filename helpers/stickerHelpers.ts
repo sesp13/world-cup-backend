@@ -16,6 +16,19 @@ export const findStickerByUserAndMeta = async (
     metaStickerId,
   });
 
+export const findOrCreateSticker = async (
+  model: ISticker
+): Promise<ISticker> => {
+  let sticker = await Sticker.findOne({
+    userId: model.userId,
+    metaStickerId: model.metaStickerId,
+  });
+  if (sticker == null) {
+    sticker = await Sticker.create(model);
+  }
+  return sticker;
+};
+
 export const stickerExists = async (id: string): Promise<boolean> => {
   const sticker: ISticker | null = await findStickerById(id);
   return sticker !== null ? true : false;
