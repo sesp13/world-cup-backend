@@ -3,6 +3,7 @@ import { check } from 'express-validator';
 import {
   createSticker,
   createStickerCollection,
+  getStickerById,
   getStickers,
   getStickersByUser,
   getStickersByUserAndStatus,
@@ -19,6 +20,12 @@ import { allowedStickerStatus } from '../models/sticker';
 const router = Router();
 
 router.get('/', [validateJWT, checkAdminRoleMiddleware], getStickers);
+
+router.get(
+  '/by-id/:id',
+  [validateJWT, check('id', 'Invalid id param').isMongoId(), fieldValidator],
+  getStickerById
+);
 
 router.get('/by-user', [validateJWT], getStickersByUser);
 

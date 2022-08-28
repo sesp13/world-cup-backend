@@ -4,6 +4,7 @@ import { findAllMetaStickers } from '../helpers/metaStickerHelpers';
 import {
   countStickersByUserStatus,
   findOrCreateSticker,
+  findStickerById,
   findStickersByUserStatus,
   populateStickerArrayModel,
 } from '../helpers/stickerHelpers';
@@ -15,6 +16,22 @@ import { IUser } from '../models/user';
 export const getStickers = async (req: Request, res: Response) => {
   const stickers = await Sticker.find();
   return res.json({ stickers });
+};
+
+export const getStickerById = async (req: Request, res: Response) => {
+  try {
+    const sticker = await findStickerById(req.params.id);
+    return res.status(200).json({
+      msg: 'Success get sticker by id',
+      sticker,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error: get Sticker by id ${error}`,
+      error,
+    });
+  }
 };
 
 export const getStickersByUser = async (req: CustomRequest, res: Response) => {
