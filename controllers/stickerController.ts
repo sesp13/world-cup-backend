@@ -7,6 +7,7 @@ import {
   findStickerById,
   findStickersByUserStatus,
   populateStickerArrayModel,
+  populateStickerModel,
 } from '../helpers/stickerHelpers';
 import { CustomRequest } from '../interfaces/customRequest';
 import { IMetaSticker } from '../models/metaSticker';
@@ -20,7 +21,10 @@ export const getStickers = async (req: Request, res: Response) => {
 
 export const getStickerById = async (req: Request, res: Response) => {
   try {
-    const sticker = await findStickerById(req.params.id);
+    const stickerResponse = await Sticker.findById(req.params.id).populate<{
+      metaStickerId: IMetaSticker;
+    }>('metaStickerId');
+    const sticker = populateStickerModel(stickerResponse);
     return res.status(200).json({
       msg: 'Success get sticker by id',
       sticker,
