@@ -2,7 +2,7 @@ import { model, Schema } from 'mongoose';
 import { IMetaSticker } from './metaSticker';
 import { IUser } from './user';
 
-export const allowedStickerStatus: string[] = [
+export const allowedStickerStatuses: string[] = [
   'PENDING',
   'PROVIDED',
   'REPEATED',
@@ -33,7 +33,7 @@ const stickerSchema = new Schema<ISticker>({
   },
   status: {
     type: String,
-    enum: allowedStickerStatus,
+    enum: allowedStickerStatuses,
     required: true,
   },
 });

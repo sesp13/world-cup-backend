@@ -10,7 +10,7 @@ import {
 } from '../helpers/stickerHelpers';
 import { CustomRequest } from '../interfaces/customRequest';
 import { IMetaSticker } from '../models/metaSticker';
-import { ISticker, Sticker } from '../models/sticker';
+import { allowedStickerStatuses, ISticker, Sticker } from '../models/sticker';
 import { IUser } from '../models/user';
 
 export const getStickers = async (req: Request, res: Response) => {
@@ -55,6 +55,22 @@ export const getStickersByUser = async (req: CustomRequest, res: Response) => {
     console.log(error);
     return res.status(500).json({
       msg: `Error: Find stickers by user ${error}`,
+      error,
+    });
+  }
+};
+
+export const getAllowedStatuses = async (req: Request, res: Response) => {
+  try {
+    const statuses = allowedStickerStatuses;
+    return res.status(200).json({
+      msg: 'Success: Get allowed sticker statuses',
+      statuses,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error: Get allowed statuses ${error}`,
       error,
     });
   }

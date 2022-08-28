@@ -3,6 +3,7 @@ import { check } from 'express-validator';
 import {
   createSticker,
   createStickerCollection,
+  getAllowedStatuses,
   getStickerById,
   getStickers,
   getStickersByUser,
@@ -17,7 +18,7 @@ import {
   isAvailableStickerForUserMiddleware,
   updateStickerMiddleware,
 } from '../middlewares/stickerMiddlewares';
-import { allowedStickerStatus } from '../models/sticker';
+import { allowedStickerStatuses } from '../models/sticker';
 
 const router = Router();
 
@@ -31,14 +32,16 @@ router.get(
 
 router.get('/by-user', [validateJWT], getStickersByUser);
 
+router.get('/allowed-statuses', [validateJWT], getAllowedStatuses);
+
 router.get(
   '/by-user-status/:status',
   [
     validateJWT,
     check(
       'status',
-      `Invalid status param, allowed status are ${allowedStickerStatus}`
-    ).isIn(allowedStickerStatus),
+      `Invalid status param, allowed status are ${allowedStickerStatuses}`
+    ).isIn(allowedStickerStatuses),
     fieldValidator,
   ],
   getStickersByUserAndStatus
@@ -54,10 +57,10 @@ router.post(
     check('amount', 'Invalid amount field').optional().isInt({ min: 0 }),
     check(
       'status',
-      `Invalid status field, allowed status are ${allowedStickerStatus}`
+      `Invalid status field, allowed status are ${allowedStickerStatuses}`
     )
       .optional()
-      .isIn(allowedStickerStatus),
+      .isIn(allowedStickerStatuses),
     fieldValidator,
     isAvailableStickerForUserMiddleware,
   ],
@@ -77,7 +80,7 @@ router.put(
     check('amount', 'Invalid amount field').optional().isInt({ min: 0 }),
     check('status', 'Invalid status field')
     .optional()
-    .isIn(allowedStickerStatus),
+    .isIn(allowedStickerStatuses),
     check('metaStickerId', 'Invalid metaStickerId').optional().isMongoId(),
     fieldValidator,
     check('metaStickerId').optional().custom(checkMetaStickerExists),
