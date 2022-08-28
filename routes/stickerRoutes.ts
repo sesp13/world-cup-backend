@@ -8,6 +8,7 @@ import {
   getStickers,
   getStickersByUser,
   getStickersByUserAndStatus,
+  searchStickers,
   updateSticker,
 } from '../controllers/stickerController';
 import { checkMetaStickerExists } from '../helpers/metaStickerHelpers';
@@ -33,6 +34,8 @@ router.get(
 router.get('/by-user', [validateJWT], getStickersByUser);
 
 router.get('/allowed-statuses', [validateJWT], getAllowedStatuses);
+
+router.get('/search/:term', [validateJWT], searchStickers);
 
 router.get(
   '/by-user-status/:status',
@@ -79,8 +82,8 @@ router.put(
     fieldValidator,
     check('amount', 'Invalid amount field').optional().isInt({ min: 0 }),
     check('status', 'Invalid status field')
-    .optional()
-    .isIn(allowedStickerStatuses),
+      .optional()
+      .isIn(allowedStickerStatuses),
     check('metaStickerId', 'Invalid metaStickerId').optional().isMongoId(),
     fieldValidator,
     check('metaStickerId').optional().custom(checkMetaStickerExists),

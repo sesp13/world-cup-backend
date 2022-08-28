@@ -186,3 +186,42 @@ export const createStickerCollection = async (
     });
   }
 };
+
+export const searchStickers = async (req: CustomRequest, res: Response) => {
+  try {
+    const user: IUser = req.user!;
+    const term: string = req.params.term;
+
+    const regex = new RegExp(term, 'i');
+
+    const populatedStickers = await Sticker.find({
+      userId: user._id,
+    }).populate<{
+      metaStickerId: IMetaSticker;
+    }>('metaStickerId');
+
+    const fullStickers: ISticker[] =
+      populateStickerArrayModel(populatedStickers);
+
+    const stickers = fullStickers.filter((sticker: ISticker) => {
+      const exp = regex.test(sticker.metaSticker!.code);
+      if (sticker.metaSticker?.name) {
+        return exp || regex.test(sticker.metaSticker.name);
+      } else {
+        return exp;
+      }
+    });
+
+    return res.status(200).json({
+      msg: 'Success search stickers',
+      stickers,
+      total: stickers.length
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error: Search stickers: ${error}`,
+      error,
+    });
+  }
+};
