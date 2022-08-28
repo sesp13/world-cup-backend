@@ -10,11 +10,13 @@ import {
   updateSticker,
 } from '../controllers/stickerController';
 import { checkMetaStickerExists } from '../helpers/metaStickerHelpers';
-import { checkStickerExists } from '../helpers/stickerHelpers';
 import { checkAdminRoleMiddleware } from '../middlewares/adminMiddlewares';
 import { fieldValidator } from '../middlewares/fieldValidator';
 import { validateJWT } from '../middlewares/jwt';
-import { isAvailableStickerForUserMiddleware } from '../middlewares/stickerMiddlewares';
+import {
+  isAvailableStickerForUserMiddleware,
+  updateStickerMiddleware,
+} from '../middlewares/stickerMiddlewares';
 import { allowedStickerStatus } from '../models/sticker';
 
 const router = Router();
@@ -69,12 +71,13 @@ router.put(
   [
     validateJWT,
     check('_id', '_id field is required').notEmpty(),
-    check('_id').custom(checkStickerExists),
+    check('_id', 'invalid _id field').isMongoId(),
+    updateStickerMiddleware,
     fieldValidator,
     check('amount', 'Invalid amount field').optional().isInt({ min: 0 }),
     check('status', 'Invalid status field')
-      .optional()
-      .isIn(allowedStickerStatus),
+    .optional()
+    .isIn(allowedStickerStatus),
     check('metaStickerId', 'Invalid metaStickerId').optional().isMongoId(),
     fieldValidator,
     check('metaStickerId').optional().custom(checkMetaStickerExists),

@@ -4,7 +4,6 @@ import { findAllMetaStickers } from '../helpers/metaStickerHelpers';
 import {
   countStickersByUserStatus,
   findOrCreateSticker,
-  findStickerById,
   findStickersByUserStatus,
   populateStickerArrayModel,
   populateStickerModel,

@@ -1,5 +1,8 @@
 import { Response } from 'express';
-import { stickerExistsByUserAndMeta } from '../helpers/stickerHelpers';
+import {
+  findStickerById,
+  stickerExistsByUserAndMeta,
+} from '../helpers/stickerHelpers';
 import { CustomRequest } from '../interfaces/customRequest';
 
 export const isAvailableStickerForUserMiddleware = async (
@@ -19,4 +22,34 @@ export const isAvailableStickerForUserMiddleware = async (
     });
 
   next();
+};
+
+export const updateStickerMiddleware = async (
+  req: CustomRequest,
+  res: Response,
+  next: any
+) => {
+  const user = req.user;
+  if (!user)
+    return res.status(400).json({
+      msg: `Unable to update the sticker without getting request's user`,
+    });
+
+  const { _id } = req.body;
+  if (!_id) return res.status(400).json({ msg: `The _id field id required` });
+
+  const sticker = await findStickerById(_id);
+  if (!sticker)
+    return res
+      .status(400)
+      .json({ msg: `The sticker with id ${_id} doesn't exists` });
+
+  // Only admins and owners are enabled to update
+  if (user.isAdmin) return next();
+
+  if (user._id == sticker.userId) return next();
+
+  return res.status(403).json({
+    msg: `Error the user doesn't have enough permissions to perform this action`,
+  });
 };
