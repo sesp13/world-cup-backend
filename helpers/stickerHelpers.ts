@@ -31,13 +31,18 @@ export const findOrCreateSticker = async (
   return sticker;
 };
 
-export const findStickersByStatus = (
+export const findStickersByUserStatus = (
   status: string,
   userId: Schema.Types.ObjectId
 ) =>
   Sticker.find({ status, userId }).populate<{
     metaStickerId: IMetaSticker;
   }>('metaStickerId');
+
+export const countStickersByUserStatus = async (
+  status: string,
+  userId: Schema.Types.ObjectId
+): Promise<number> => await Sticker.countDocuments({ status, userId });
 
 export const populateStickerModel = (model: any): ISticker => ({
   ...model.toObject(),

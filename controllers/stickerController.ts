@@ -2,8 +2,9 @@ import { Request, Response } from 'express';
 import { Schema } from 'mongoose';
 import { findAllMetaStickers } from '../helpers/metaStickerHelpers';
 import {
+  countStickersByUserStatus,
   findOrCreateSticker,
-  findStickersByStatus,
+  findStickersByUserStatus,
   populateStickerArrayModel,
 } from '../helpers/stickerHelpers';
 import { CustomRequest } from '../interfaces/customRequest';
@@ -44,15 +45,33 @@ export const getStickersByUserAndStatus = async (
   res: Response
 ) => {
   try {
+    // Paged params
+    let limit: any = req.query.limit;
+    let skip: any = req.query.skip;
+    const isPaged: boolean = req.query.paged !== undefined;
+    limit = isNaN(limit) ? 5 : Number(limit);
+    skip = isNaN(skip) ? 0 : Number(skip);
+
     const userId = req.user?._id!;
     const status = req.params.status;
-    const populatedStickers = await findStickersByStatus(status, userId);
+    const query = isPaged
+      ? findStickersByUserStatus(status, userId).skip(skip).limit(limit)
+      : findStickersByUserStatus(status, userId);
+
+    const [populatedStickers, totalStickers] = await Promise.all([
+      query,
+      countStickersByUserStatus(status, userId),
+    ]);
     const stickers = populateStickerArrayModel(populatedStickers);
 
-    return res.status(200).json({
+    let responseBody: any = {
       msg: `Success: Find pending stickers by user and status`,
-      stickers: stickers,
-    });
+      stickers,
+      totalStickers,
+    };
+    if (isPaged) responseBody = { ...responseBody, skip, limit };
+
+    return res.status(200).json(responseBody);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
