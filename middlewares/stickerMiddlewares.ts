@@ -47,7 +47,9 @@ export const updateStickerMiddleware = async (
   // Only admins and owners are enabled to update
   if (user.isAdmin) return next();
 
-  if (user._id == sticker.userId) return next();
+  const requestUserId: string = user._id!.valueOf() as string;
+  const stickerUserId: string = sticker.userId.valueOf() as string;
+  if (requestUserId == stickerUserId) return next();
 
   return res.status(403).json({
     msg: `Error the user doesn't have enough permissions to perform this action`,
