@@ -37,6 +37,7 @@ import {
   setUpUruguay,
   setUpSouthKorea,
   setUpFWC,
+  setUpCocacola,
 } from './teams-setup';
 
 export const findOrCreateTeam = async (
@@ -281,8 +282,14 @@ export const setUpTeamHelper = async (
       break;
     }
     case 'FWC': {
+      let { country: resultCountry, members: resultMembers } = await setUpFWC();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'COCA': {
       let { country: resultCountry, members: resultMembers } =
-        await setUpFWC();
+        await setUpCocacola();
       country = resultCountry;
       members = resultMembers;
       break;
@@ -341,4 +348,8 @@ export const setUp2022Teams = async () => {
   await setUpGhana();
   await setUpUruguay();
   await setUpSouthKorea();
+
+  // Specials
+  await setUpFWC();
+  await setUpCocacola();
 };
