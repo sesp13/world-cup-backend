@@ -1,157 +1,42 @@
 // import { FullTeam } from '../../../interfaces/fullTeam';
-// import { Group, IGroup } from '../../../models/group';
+// import { IGroup } from '../../../models/group';
 // import { IMetaSticker } from '../../../models/metaSticker';
-// import { createMember } from '../setUpHelpers';
+// import {
+//   createMemberSet,
+//   createSetUpGroup,
+// } from '../setUpHelpers';
 
-// export const setUpTemplate = async (): Promise<FullTeam> => {
-//   const countryData: IGroup = { code: 'TEM', name: 'Template' };
+// export const setUptTemplate = async (): Promise<FullTeam> => {
+//   const countryData: IGroup = { code: 'TEM', name: 'tTemplate' };
 
-//   const country = await Group.findOneAndUpdate(
-//     {
-//       code: countryData.code,
-//     },
-//     countryData,
-//     {
-//       new: true,
-//       upsert: true,
-//     }
-//   );
+//   const country = await createSetUpGroup(countryData);
 
-//   const members: IMetaSticker[] = [];
+//   const memberNames = [
+//     'Template shield', //1
+//     'Saad Al Sheeb', //2
+//     'Meshaal Barsham', //3
+//     'Homam Ahmed', //4
+//     'Bassam Alrawi', //5
+//     'Abdulkarim Hassan', //6
+//     'Musaab Khidir', //7
+//     'Boualem Khoukhi', //8
+//     'Pedro Miguel', //9
+//     'Tarek Salman', //10
+//     'Karim Boudiaf', //11
+//     'Abdulaziz Hatem', //12
+//     'Assim Omer Madibo', //13
+//     'Yousuf Abdurisag', //14
+//     'Akram Hassan Afif', //15
+//     'Ahmad Alaaeldin', //16
+//     'Hasan Al-Haydos', //17
+//     'Almoez Ali', //18
+//     'Mohammed Muntari', //19
+//   ];
 
-//   // Players
-//   const member1 = await createMember({
-//     code: `${countryData.code} 1`,
-//     name: 'Template shield',
-//     groupId: country._id,
+//   const members: IMetaSticker[] = await createMemberSet({
+//     names: memberNames,
+//     group: country,
 //   });
-//   members.push(member1);
-
-//   const member2 = await createMember({
-//     code: `${countryData.code} 2`,
-//     name: 'Template Member 2',
-//     groupId: country._id,
-//   });
-//   members.push(member2);
-  
-//   const member3 = await createMember({
-//     code: `${countryData.code} 3`,
-//     name: 'Template Member 3',
-//     groupId: country._id,
-//   });
-//   members.push(member3);
-
-//   const member4 = await createMember({
-//     code: `${countryData.code} 4`,
-//     name: 'Template Member 4',
-//     groupId: country._id,
-//   });
-//   members.push(member4);
-
-//   const member5 = await createMember({
-//     code: `${countryData.code} 5`,
-//     name: 'Template Member 5',
-//     groupId: country._id,
-//   });
-//   members.push(member5);
-
-//   const member6 = await createMember({
-//     code: `${countryData.code} 6`,
-//     name: 'Template Member 6',
-//     groupId: country._id,
-//   });
-//   members.push(member6);
-
-//   const member7 = await createMember({
-//     code: `${countryData.code} 7`,
-//     name: 'Template Member 7',
-//     groupId: country._id,
-//   });
-//   members.push(member7);
-  
-//   const member8 = await createMember({
-//     code: `${countryData.code} 8`,
-//     name: 'Template Member 8',
-//     groupId: country._id,
-//   });
-//   members.push(member8);
-
-//   const member9 = await createMember({
-//     code: `${countryData.code} 9`,
-//     name: 'Template Member 9',
-//     groupId: country._id,
-//   });
-//   members.push(member9);
-
-//   const member10 = await createMember({
-//     code: `${countryData.code} 10`,
-//     name: 'Template Member 10',
-//     groupId: country._id,
-//   });
-//   members.push(member10);
-
-//   const member11 = await createMember({
-//     code: `${countryData.code} 11`,
-//     name: 'Template Member 11',
-//     groupId: country._id,
-//   });
-//   members.push(member11);
-
-//   const member12 = await createMember({
-//     code: `${countryData.code} 12`,
-//     name: 'Template Member 12',
-//     groupId: country._id,
-//   });
-//   members.push(member12);
-  
-//   const member13 = await createMember({
-//     code: `${countryData.code} 13`,
-//     name: 'Template Member 13',
-//     groupId: country._id,
-//   });
-//   members.push(member13);
-
-//   const member14 = await createMember({
-//     code: `${countryData.code} 14`,
-//     name: 'Template Member 14',
-//     groupId: country._id,
-//   });
-//   members.push(member14);
-
-//   const member15 = await createMember({
-//     code: `${countryData.code} 15`,
-//     name: 'Template Member 15',
-//     groupId: country._id,
-//   });
-//   members.push(member15);
-
-//   const member16 = await createMember({
-//     code: `${countryData.code} 16`,
-//     name: 'Template Member 16',
-//     groupId: country._id,
-//   });
-//   members.push(member16);
-
-//   const member17 = await createMember({
-//     code: `${countryData.code} 17`,
-//     name: 'Template Member 17',
-//     groupId: country._id,
-//   });
-//   members.push(member17);
-
-//   const member18 = await createMember({
-//     code: `${countryData.code} 18`,
-//     name: 'Template Member 18',
-//     groupId: country._id,
-//   });
-//   members.push(member18);
-
-//   const member19 = await createMember({
-//     code: `${countryData.code} 19`,
-//     name: 'Template Member 19',
-//     groupId: country._id,
-//   });
-//   members.push(member19);
 
 //   return { country, members };
 // };
