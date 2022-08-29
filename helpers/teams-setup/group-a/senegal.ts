@@ -152,13 +152,6 @@ export const setUpSenegal = async (): Promise<FullTeam> => {
     groupId: country._id,
   });
   members.push(member19);
-
-  const member20 = await createPlayer({
-    code: `${countryData.code} 20`,
-    name: 'Senegal Member 20',
-    groupId: country._id,
-  });
-  members.push(member20);
-
+  
   return { country, members };
 };
