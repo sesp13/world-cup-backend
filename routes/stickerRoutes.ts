@@ -35,7 +35,7 @@ router.get('/by-user', [validateJWT], getStickersByUser);
 
 router.get('/allowed-statuses', [validateJWT], getAllowedStatuses);
 
-router.get('/search/:term', [validateJWT], searchStickers);
+router.post('/search/:term', [validateJWT], searchStickers);
 
 router.get(
   '/by-user-status/:status',

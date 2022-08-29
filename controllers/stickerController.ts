@@ -195,6 +195,7 @@ export const searchStickers = async (req: CustomRequest, res: Response) => {
     const regex = new RegExp(term, 'i');
 
     const populatedStickers = await Sticker.find({
+      ...req.body,
       userId: user._id,
     }).populate<{
       metaStickerId: IMetaSticker;
@@ -215,7 +216,7 @@ export const searchStickers = async (req: CustomRequest, res: Response) => {
     return res.status(200).json({
       msg: 'Success search stickers',
       stickers,
-      total: stickers.length
+      total: stickers.length,
     });
   } catch (error) {
     console.log(error);
