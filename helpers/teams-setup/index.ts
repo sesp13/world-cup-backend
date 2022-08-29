@@ -37,3 +37,5 @@ export * from './group-h/portugal';
 export * from './group-h/ghana';
 export * from './group-h/uruguay';
 export * from './group-h/southKorea';
+
+export * from './specials/fwc';

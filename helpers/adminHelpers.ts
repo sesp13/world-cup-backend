@@ -36,6 +36,7 @@ import {
   setUpGhana,
   setUpUruguay,
   setUpSouthKorea,
+  setUpFWC,
 } from './teams-setup';
 
 export const findOrCreateTeam = async (
@@ -275,6 +276,13 @@ export const setUpTeamHelper = async (
     case 'KOR': {
       let { country: resultCountry, members: resultMembers } =
         await setUpSouthKorea();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'FWC': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpFWC();
       country = resultCountry;
       members = resultMembers;
       break;

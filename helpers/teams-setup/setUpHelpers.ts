@@ -1,6 +1,6 @@
 import { IMetaSticker, MetaSticker } from '../../models/metaSticker';
 
-export const createPlayer = async (
+export const createMember = async (
   structure: IMetaSticker
 ): Promise<IMetaSticker> => {
   return await MetaSticker.findOneAndUpdate(
