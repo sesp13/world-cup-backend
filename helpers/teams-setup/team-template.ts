@@ -6,7 +6,7 @@
 //   createSetUpGroup,
 // } from '../setUpHelpers';
 
-// export const setUptTemplate = async (): Promise<FullTeam> => {
+// export const setUpTemplate = async (): Promise<FullTeam> => {
 //   const countryData: IGroup = { code: 'TEM', name: 'tTemplate' };
 
 //   const country = await createSetUpGroup(countryData);
