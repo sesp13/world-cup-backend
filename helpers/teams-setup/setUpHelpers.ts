@@ -30,7 +30,7 @@ export const createMemberSet = async (param: {
   const resultSet: IMetaSticker[] = [];
   const { names, group } = param;
 
-  for (let i = 0; i < 19; i++) {
+  for (let i = 0; i < names.length; i++) {
     const name = names[i];
     const stickerNumber = i + 1;
     const member = await createMember({
