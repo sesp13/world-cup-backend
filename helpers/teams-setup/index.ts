@@ -25,7 +25,7 @@ export * from './group-e/japan';
 
 export * from './group-f/belgium';
 export * from './group-f/canada';
-export * from './group-f/morroco';
+export * from './group-f/morocco';
 export * from './group-f/croatia';
 
 export * from './group-g/brazil';

@@ -26,7 +26,7 @@ import {
   setUpJapan,
   setUpBelgium,
   setUpCanada,
-  setUpMorroco,
+  setUpMorocco,
   setUpCroatia,
   setUpBrazil,
   setUpSerbia,
@@ -220,7 +220,14 @@ export const setUpTeamHelper = async (
     }
     case 'MAR': {
       let { country: resultCountry, members: resultMembers } =
-        await setUpMorroco();
+        await setUpMorocco();
+      country = resultCountry;
+      members = resultMembers;
+      break;
+    }
+    case 'CRO': {
+      let { country: resultCountry, members: resultMembers } =
+        await setUpCroatia();
       country = resultCountry;
       members = resultMembers;
       break;
@@ -334,7 +341,7 @@ export const setUp2022Teams = async () => {
   // Group F
   await setUpBelgium();
   await setUpCanada();
-  await setUpMorroco();
+  await setUpMorocco();
   await setUpCroatia();
 
   // Group G
