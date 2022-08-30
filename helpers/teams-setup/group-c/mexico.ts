@@ -1,157 +1,39 @@
 import { FullTeam } from '../../../interfaces/fullTeam';
-import { Group, IGroup } from '../../../models/group';
+import { IGroup } from '../../../models/group';
 import { IMetaSticker } from '../../../models/metaSticker';
-import { createMember } from '../setUpHelpers';
+import { createMemberSet, createSetUpGroup } from '../setUpHelpers';
 
 export const setUpMexico = async (): Promise<FullTeam> => {
   const countryData: IGroup = { code: 'MEX', name: 'Mexico' };
 
-  const country = await Group.findOneAndUpdate(
-    {
-      code: countryData.code,
-    },
-    countryData,
-    {
-      new: true,
-      upsert: true,
-    }
-  );
+  const country = await createSetUpGroup(countryData);
 
-  const members: IMetaSticker[] = [];
+  const memberNames = [
+    'Mexico Shield', //1
+    'Guillermo Ochoa', //2
+    'Alfredo Talavera', //3
+    'Néstor Araújo', //4
+    'Jesús Gallardo', //5
+    'César Montes', //6
+    'Héctor Moreno', //7
+    'Luis Romo', //8
+    'Jorge Sánchez', //9
+    'Edson Álvarez', //10
+    'Jesús Manuel Corona', //11
+    'Andrés Guardado', //12
+    'Érick Gutiérrez', //13
+    'Héctor Herrera', //14
+    'Diego Lainez', //15
+    'Carlos Rodríguez', //16
+    'Rogelio Funes Mori', //17
+    'Raúl Jiménez', //18
+    'Hirving Lozano', //19
+  ];
 
-  // Players
-  const member1 = await createMember({
-    code: `${countryData.code} 1`,
-    name: 'Mexico shield',
-    groupId: country._id,
+  const members: IMetaSticker[] = await createMemberSet({
+    names: memberNames,
+    group: country,
   });
-  members.push(member1);
-
-  const member2 = await createMember({
-    code: `${countryData.code} 2`,
-    name: 'Mexico Member 2',
-    groupId: country._id,
-  });
-  members.push(member2);
-  
-  const member3 = await createMember({
-    code: `${countryData.code} 3`,
-    name: 'Mexico Member 3',
-    groupId: country._id,
-  });
-  members.push(member3);
-
-  const member4 = await createMember({
-    code: `${countryData.code} 4`,
-    name: 'Mexico Member 4',
-    groupId: country._id,
-  });
-  members.push(member4);
-
-  const member5 = await createMember({
-    code: `${countryData.code} 5`,
-    name: 'Mexico Member 5',
-    groupId: country._id,
-  });
-  members.push(member5);
-
-  const member6 = await createMember({
-    code: `${countryData.code} 6`,
-    name: 'Mexico Member 6',
-    groupId: country._id,
-  });
-  members.push(member6);
-
-  const member7 = await createMember({
-    code: `${countryData.code} 7`,
-    name: 'Mexico Member 7',
-    groupId: country._id,
-  });
-  members.push(member7);
-  
-  const member8 = await createMember({
-    code: `${countryData.code} 8`,
-    name: 'Mexico Member 8',
-    groupId: country._id,
-  });
-  members.push(member8);
-
-  const member9 = await createMember({
-    code: `${countryData.code} 9`,
-    name: 'Mexico Member 9',
-    groupId: country._id,
-  });
-  members.push(member9);
-
-  const member10 = await createMember({
-    code: `${countryData.code} 10`,
-    name: 'Mexico Member 10',
-    groupId: country._id,
-  });
-  members.push(member10);
-
-  const member11 = await createMember({
-    code: `${countryData.code} 11`,
-    name: 'Mexico Member 11',
-    groupId: country._id,
-  });
-  members.push(member11);
-
-  const member12 = await createMember({
-    code: `${countryData.code} 12`,
-    name: 'Mexico Member 12',
-    groupId: country._id,
-  });
-  members.push(member12);
-  
-  const member13 = await createMember({
-    code: `${countryData.code} 13`,
-    name: 'Mexico Member 13',
-    groupId: country._id,
-  });
-  members.push(member13);
-
-  const member14 = await createMember({
-    code: `${countryData.code} 14`,
-    name: 'Mexico Member 14',
-    groupId: country._id,
-  });
-  members.push(member14);
-
-  const member15 = await createMember({
-    code: `${countryData.code} 15`,
-    name: 'Mexico Member 15',
-    groupId: country._id,
-  });
-  members.push(member15);
-
-  const member16 = await createMember({
-    code: `${countryData.code} 16`,
-    name: 'Mexico Member 16',
-    groupId: country._id,
-  });
-  members.push(member16);
-
-  const member17 = await createMember({
-    code: `${countryData.code} 17`,
-    name: 'Mexico Member 17',
-    groupId: country._id,
-  });
-  members.push(member17);
-
-  const member18 = await createMember({
-    code: `${countryData.code} 18`,
-    name: 'Mexico Member 18',
-    groupId: country._id,
-  });
-  members.push(member18);
-
-  const member19 = await createMember({
-    code: `${countryData.code} 19`,
-    name: 'Mexico Member 19',
-    groupId: country._id,
-  });
-  members.push(member19);
 
   return { country, members };
 };
