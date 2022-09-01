@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import {
+  checkUserOwnerShipForStickerArray,
   findStickerById,
   stickerExistsByUserAndMeta,
 } from '../helpers/stickerHelpers';
@@ -54,4 +55,42 @@ export const updateStickerMiddleware = async (
   return res.status(403).json({
     msg: `Error the user doesn't have enough permissions to perform this action`,
   });
+};
+
+export const addManyStickersMiddleware = async (
+  req: CustomRequest,
+  res: Response,
+  next: any
+) => {
+  const user = req.user;
+  if (!user)
+    return res.status(400).json({
+      msg: `Unable to update the sticker without getting request's user`,
+    });
+
+  const stickerIds: string[] = req.body.stickerIds;
+  if (!stickerIds)
+    return res.status(400).json({ msg: `The field stickerIds is required` });
+
+  if (!Array.isArray(stickerIds))
+    return res
+      .status(400)
+      .json({ msg: `The field stickerIds must be an array` });
+
+  if (!user.isAdmin) {
+    const userId = user?._id!.valueOf() as string;
+    const { error } = await checkUserOwnerShipForStickerArray(
+      userId,
+      stickerIds
+    );
+
+    if (error) {
+      return res.status(400).json({
+        msg: `Error: Add many stickers ${error}`,
+        error,
+      });
+    }
+  }
+
+  return next();
 };

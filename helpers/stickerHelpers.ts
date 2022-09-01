@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema, Types } from 'mongoose';
 import { IMetaSticker } from '../models/metaSticker';
 import { ISticker, Sticker } from '../models/sticker';
 
@@ -67,6 +67,48 @@ export const stickerExistsByUserAndMeta = async (
     metaStickerId
   );
   return sticker !== null ? true : false;
+};
+
+export const getNewStatusByAmount = (
+  amount: number
+): { amount: number; status: string } => {
+  let status: string = 'PENDING';
+  if (amount < 0) {
+    amount = 0;
+    status = 'PENDING';
+  } else if (amount == 0) {
+    status = 'PENDING';
+  } else if (amount == 1) {
+    status = 'PROVIDED';
+  } else if (amount > 1) {
+    status = 'REPEATED';
+  }
+  return { amount, status };
+};
+
+export const checkUserOwnerShipForStickerArray = async (
+  userId: string,
+  stickerIds: string[]
+): Promise<{ stickers?: ISticker[]; error?: string }> => {
+  const stickers: ISticker[] = [];
+  for (const id of stickerIds) {
+    if (!Types.ObjectId.isValid(id)) {
+      return { error: `The id ${id} is invalid` };
+    }
+
+    const sticker = await findStickerById(id);
+    if (sticker == null) {
+      return { error: `The sticker with id ${id} doesn't exists` };
+    } else {
+      const stickerUserId = sticker.userId.valueOf() as string;
+      if (userId !== stickerUserId) {
+        return { error: `The sticker ${id} doesn't belongs to user ${userId}` };
+      } else {
+        stickers.push(sticker);
+      }
+    }
+  }
+  return { stickers };
 };
 
 // Check validators for routes

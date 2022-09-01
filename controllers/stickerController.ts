@@ -5,6 +5,7 @@ import {
   countStickersByUserStatus,
   findOrCreateSticker,
   findStickersByUserStatus,
+  getNewStatusByAmount,
   populateStickerArrayModel,
   populateStickerModel,
 } from '../helpers/stickerHelpers';
@@ -153,6 +154,31 @@ export const updateSticker = async (req: CustomRequest, res: Response) => {
     console.log(error);
     return res.status(500).json({
       msg: `Error: Update Sticker ${error}`,
+      error,
+    });
+  }
+};
+
+export const AddManyStickers = async (req: CustomRequest, res: Response) => {
+  try {
+    const stickerIds: string[] = req.body.stickerIds;
+    for (const id of stickerIds) {
+      const sticker = await Sticker.findById(id);
+      if (sticker !== null) {
+        sticker.amount += 1;
+        const { amount, status } = getNewStatusByAmount(sticker.amount);
+        sticker.amount = amount;
+        sticker.status = status;
+        await sticker.save();
+      }
+    }
+    return res.status(200).json({
+      msg: `Success: Add many stickers`,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error: Add many stickers ${error}`,
       error,
     });
   }

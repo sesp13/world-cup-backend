@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import {
+  AddManyStickers,
   createSticker,
   createStickerCollection,
   getAllowedStatuses,
@@ -16,6 +17,7 @@ import { checkAdminRoleMiddleware } from '../middlewares/adminMiddlewares';
 import { fieldValidator } from '../middlewares/fieldValidator';
 import { validateJWT } from '../middlewares/jwt';
 import {
+  addManyStickersMiddleware,
   isAvailableStickerForUserMiddleware,
   updateStickerMiddleware,
 } from '../middlewares/stickerMiddlewares';
@@ -90,6 +92,12 @@ router.put(
     fieldValidator,
   ],
   updateSticker
+);
+
+router.put(
+  '/add-many',
+  [validateJWT, addManyStickersMiddleware],
+  AddManyStickers
 );
 
 export default router;
