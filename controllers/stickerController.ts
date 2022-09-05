@@ -170,9 +170,8 @@ export const getStickerCodesByStatusFromCodesArray = async (
       msg: `Success get stickers by status from code array`,
       status,
       codes: result,
-      total: result.length
-    })
-
+      total: result.length,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -223,13 +222,22 @@ export const updateSticker = async (req: CustomRequest, res: Response) => {
   }
 };
 
-export const AddManyStickers = async (req: CustomRequest, res: Response) => {
+export const bulkUpdateStickersAmount = async (
+  req: CustomRequest,
+  res: Response
+) => {
   try {
     const stickerIds: string[] = req.body.stickerIds;
+    const type: string = req.body.type;
+
     for (const id of stickerIds) {
       const sticker = await Sticker.findById(id);
       if (sticker !== null) {
-        sticker.amount += 1;
+        if (type == 'ADD') {
+          sticker.amount += 1;
+        } else if (type == 'SUB') {
+          sticker.amount -= 1;
+        }
         const { amount, status } = getNewStatusByAmount(sticker.amount);
         sticker.amount = amount;
         sticker.status = status;
@@ -237,12 +245,12 @@ export const AddManyStickers = async (req: CustomRequest, res: Response) => {
       }
     }
     return res.status(200).json({
-      msg: `Success: Add many stickers`,
+      msg: `Success: Bulk update amount stickers`,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      msg: `Error: Add many stickers ${error}`,
+      msg: `Error: Bulk update amount stickers ${error}`,
       error,
     });
   }

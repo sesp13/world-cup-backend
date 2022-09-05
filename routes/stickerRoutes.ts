@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { check } from 'express-validator';
 import {
-  AddManyStickers,
+  bulkUpdateStickersAmount,
   createSticker,
   createStickerCollection,
   getAllowedStatuses,
@@ -19,7 +19,7 @@ import { checkAdminRoleMiddleware } from '../middlewares/adminMiddlewares';
 import { fieldValidator } from '../middlewares/fieldValidator';
 import { validateJWT } from '../middlewares/jwt';
 import {
-  addManyStickersMiddleware,
+  bulkUpdateStickersAmountMiddleware,
   isAvailableStickerForUserMiddleware,
   updateStickerMiddleware,
 } from '../middlewares/stickerMiddlewares';
@@ -125,9 +125,17 @@ router.put(
 );
 
 router.put(
-  '/add-many',
-  [validateJWT, addManyStickersMiddleware],
-  AddManyStickers
+  '/bulk-update-amount',
+  [
+    validateJWT,
+    check('type', `type field is required`).notEmpty(),
+    check('type', `Invalid type field allowed are ADD and SUB`).isIn([
+      'ADD',
+      'SUB',
+    ]),
+    bulkUpdateStickersAmountMiddleware,
+  ],
+  bulkUpdateStickersAmount
 );
 
 export default router;

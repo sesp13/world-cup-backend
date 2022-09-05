@@ -57,7 +57,7 @@ export const updateStickerMiddleware = async (
   });
 };
 
-export const addManyStickersMiddleware = async (
+export const bulkUpdateStickersAmountMiddleware = async (
   req: CustomRequest,
   res: Response,
   next: any
@@ -86,7 +86,7 @@ export const addManyStickersMiddleware = async (
 
     if (error) {
       return res.status(400).json({
-        msg: `Error: Add many stickers ${error}`,
+        msg: `Error ${error}`,
         error,
       });
     }
