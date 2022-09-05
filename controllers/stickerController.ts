@@ -4,6 +4,7 @@ import { findAllMetaStickers } from '../helpers/metaStickerHelpers';
 import {
   countStickersByUserStatus,
   findOrCreateSticker,
+  findStickerByMetaStickerCode,
   findStickersByUserStatus,
   getNewStatusByAmount,
   populateStickerArrayModel,
@@ -136,12 +137,47 @@ export const getStickerCodesByUserAndStatus = async (
     return res.status(200).json({
       msg: `Get sticker codes by user and status`,
       codes,
-      total
+      total,
     });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
       msg: `Error: Get sticker codes by user and status ${error}`,
+    });
+  }
+};
+
+export const getStickerCodesByStatusFromCodesArray = async (
+  req: CustomRequest,
+  res: Response
+) => {
+  try {
+    const codes: string[] = req.body.codes;
+    const status: string = req.body.status;
+    const result: string[] = [];
+
+    for (let code of codes) {
+      code = code.toUpperCase();
+      const sticker = await findStickerByMetaStickerCode(code);
+      if (sticker) {
+        if (sticker.status == status) {
+          result.push(sticker.metaSticker?.code!);
+        }
+      }
+    }
+
+    return res.status(200).json({
+      msg: `Success get stickers by status from code array`,
+      status,
+      codes: result,
+      total: result.length
+    })
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error get stickers by status from code array ${error}`,
+      error,
     });
   }
 };

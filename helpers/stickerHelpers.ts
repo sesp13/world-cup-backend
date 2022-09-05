@@ -1,6 +1,7 @@
 import { Schema, Types } from 'mongoose';
 import { IMetaSticker } from '../models/metaSticker';
 import { ISticker, Sticker } from '../models/sticker';
+import { getMetaStickerByCode } from './metaStickerHelpers';
 
 export const findStickerById = async (id: string): Promise<ISticker | null> =>
   await Sticker.findById(id);
@@ -17,6 +18,24 @@ export const findStickerByUserAndMeta = async (
     userId,
     metaStickerId,
   });
+
+export const findStickerByMetaStickerId = async (
+  metaStickerId: string
+): Promise<ISticker | null> => await Sticker.findOne({ metaStickerId });
+
+export const findStickerByMetaStickerCode = async (
+  code: string
+): Promise<ISticker | null> => {
+  const metaSticker = await getMetaStickerByCode(code);
+  if (!metaSticker) return null;
+
+  const metaId = metaSticker._id!.valueOf() as string;
+  const sticker = await findStickerByMetaStickerId(metaId);
+  if (!sticker) return null;
+
+  sticker.metaSticker = metaSticker;
+  return sticker;
+};
 
 export const findOrCreateSticker = async (
   model: ISticker

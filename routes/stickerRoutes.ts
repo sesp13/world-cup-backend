@@ -5,6 +5,7 @@ import {
   createSticker,
   createStickerCollection,
   getAllowedStatuses,
+  getStickerCodesByStatusFromCodesArray,
   getStickerById,
   getStickerCodesByUserAndStatus,
   getStickers,
@@ -87,6 +88,21 @@ router.post(
 );
 
 router.post('/create-collection', [validateJWT], createStickerCollection);
+
+router.post(
+  '/get-codes-by-status-from-codes-array',
+  [
+    validateJWT,
+    check('codes', `codes field is required`).notEmpty(),
+    check('codes', `codes must be an array`).isArray(),
+    check(
+      'status',
+      `Invalid status param, allowed status are ${allowedStickerStatuses}`
+    ).isIn(allowedStickerStatuses),
+    fieldValidator,
+  ],
+  getStickerCodesByStatusFromCodesArray
+);
 
 router.put(
   '/',
