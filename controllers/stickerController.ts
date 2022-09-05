@@ -118,6 +118,34 @@ export const getStickersByUserAndStatus = async (
   }
 };
 
+export const getStickerCodesByUserAndStatus = async (
+  req: CustomRequest,
+  res: Response
+) => {
+  try {
+    const userId = req.user?._id!;
+    const status = req.params.status;
+    const [populatedStickers, total] = await Promise.all([
+      findStickersByUserStatus(status, userId),
+      countStickersByUserStatus(status, userId),
+    ]);
+    const codes = populateStickerArrayModel(populatedStickers).map(
+      (sticker: ISticker) => sticker.metaSticker?.code ?? ''
+    );
+
+    return res.status(200).json({
+      msg: `Get sticker codes by user and status`,
+      codes,
+      total
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      msg: `Error: Get sticker codes by user and status ${error}`,
+    });
+  }
+};
+
 export const createSticker = async (req: CustomRequest, res: Response) => {
   try {
     const userId: Schema.Types.ObjectId = req.user?._id!;

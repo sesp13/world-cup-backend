@@ -6,6 +6,7 @@ import {
   createStickerCollection,
   getAllowedStatuses,
   getStickerById,
+  getStickerCodesByUserAndStatus,
   getStickers,
   getStickersByUser,
   getStickersByUserAndStatus,
@@ -50,6 +51,19 @@ router.get(
     fieldValidator,
   ],
   getStickersByUserAndStatus
+);
+
+router.get(
+  '/by-user-status-codes/:status',
+  [
+    validateJWT,
+    check(
+      'status',
+      `Invalid status param, allowed status are ${allowedStickerStatuses}`
+    ).isIn(allowedStickerStatuses),
+    fieldValidator,
+  ],
+  getStickerCodesByUserAndStatus
 );
 
 router.post(
